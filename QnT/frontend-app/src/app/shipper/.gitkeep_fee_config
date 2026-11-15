@@ -1,0 +1,198 @@
+'use client';
+import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
+import '../../admin/dashboard/styles.css';
+
+const API = 'http://localhost:4000/api';
+const getToken = () => typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
+function fmtVnd(n) {
+  if (!n && n !== 0) return '';
+  return Number(n).toLocaleString('vi-VN');
+}
+
+const emptyRate = (zone) => ({ zone, weight_from: 0, weight_to: '', base_fee: 0, per_kg_fee: 0 });
+
+export default function FeeConfigPage() {
+  const [profile, setProfile] = useState({
+    display_name: '', description: '',
+    estimated_days_local: '1-2', estimated_days_national: '3-5',
+  });
+  const [localRates, setLocalRates] = useState([emptyRate('local')]);
+  const [nationalRates, setNationalRates] = useState([emptyRate('national')]);
+  const [activeTab, setActiveTab] = useState('local');
+  const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [pRes, rRes] = await Promise.all([
+        fetch(`${API}/v1/shipper/profile`, { headers: { Authorization: `Bearer ${getToken()}` } }),
+        fetch(`${API}/v1/shipper/rates`, { headers: { Authorization: `Bearer ${getToken()}` } }),
+      ]);
+      if (pRes.ok) {
+        const pData = await pRes.json();
+        if (pData.profile) setProfile(pData.profile);
+      }
+      if (rRes.ok) {
+        const rData = await rRes.json();
+        const rates = rData.rates || [];
+        const local = rates.filter(r => r.zone === 'local');
+        const national = rates.filter(r => r.zone === 'national');
+        setLocalRates(local.length ? local : [emptyRate('local')]);
+        setNationalRates(national.length ? national : [emptyRate('national')]);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetchData(); }, [fetchData]);
+
+  const handleSave = async () => {
+    setSaving(true);
+    setMsg(null);
+    try {
+      const allRates = [
+        ...localRates.map(r => ({ ...r, zone: 'local', weight_from: Number(r.weight_from) || 0, weight_to: r.weight_to === '' ? null : Number(r.weight_to), base_fee: Number(r.base_fee) || 0, per_kg_fee: Number(r.per_kg_fee) || 0 })),
+        ...nationalRates.map(r => ({ ...r, zone: 'national', weight_from: Number(r.weight_from) || 0, weight_to: r.weight_to === '' ? null : Number(r.weight_to), base_fee: Number(r.base_fee) || 0, per_kg_fee: Number(r.per_kg_fee) || 0 })),
+      ];
+      const [pRes, rRes] = await Promise.all([
+        fetch(`${API}/v1/shipper/profile`, {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${getToken()}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify(profile),
+        }),
+        fetch(`${API}/v1/shipper/rates`, {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${getToken()}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rates: allRates }),
+        }),
+      ]);
+      if (pRes.ok && rRes.ok) {
+        setMsg({ type: 'success', text: 'Lưu thành công!' });
+      } else {
+        const e = await (pRes.ok ? rRes : pRes).json();
+        setMsg({ type: 'error', text: e.detail || 'Lưu thất bại' });
+      }
+    } catch (e) {
+      setMsg({ type: 'error', text: 'Lỗi kết nối server' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const rates = activeTab === 'local' ? localRates : nationalRates;
+  const setRates = activeTab === 'local' ? setLocalRates : setNationalRates;
+  const updateRate = (idx, field, value) => setRates(prev => prev.map((r, i) => i === idx ? { ...r, [field]: value } : r));
+  const addRate = () => setRates(prev => [...prev, emptyRate(activeTab)]);
+  const removeRate = (idx) => setRates(prev => prev.filter((_, i) => i !== idx));
+
+  return (
+    <>
+      <div className="admin-page-header">
+        <h1>Cấu hình phí vận chuyển</h1>
+        <small><Link href="/shipper/dashboard">Trang chủ</Link> / Cấu hình phí</small>
+      </div>
+      <div className="admin-page-content">
+        {msg && (
+          <div style={{ padding: '10px 16px', borderRadius: 8, marginBottom: 20, background: msg.type === 'success' ? '#e9f7ef' : '#fde8e8', color: msg.type === 'success' ? '#27ae60' : '#e74c3c', fontWeight: 500 }}>
+            <i className={`las la-${msg.type === 'success' ? 'check-circle' : 'exclamation-circle'}`} style={{ marginRight: 6 }}></i>
+            {msg.text}
+          </div>
+        )}
+        <div className="admin-records" style={{ marginBottom: 24 }}>
+          <div className="admin-record-header">
+            <h3><i className="las la-id-card" style={{ marginRight: 6 }}></i>Thông tin đơn vị vận chuyển</h3>
+          </div>
+          <div style={{ padding: '20px 24px' }}>
+            {loading ? <div style={{ color: '#999', textAlign: 'center', padding: '2rem' }}>Đang tải...</div> : (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div>
+                  <label style={labelStyle}>Tên hiển thị *</label>
+                  <input style={inputStyle} value={profile.display_name} onChange={e => setProfile(p => ({ ...p, display_name: e.target.value }))} placeholder="VD: Giao Hàng Nhanh" />
+                </div>
+                <div>
+                  <label style={labelStyle}>Mô tả</label>
+                  <input style={inputStyle} value={profile.description || ''} onChange={e => setProfile(p => ({ ...p, description: e.target.value }))} placeholder="Mô tả dịch vụ..." />
+                </div>
+                <div>
+                  <label style={labelStyle}>Thời gian giao nội tỉnh (ngày)</label>
+                  <input style={inputStyle} value={profile.estimated_days_local || ''} onChange={e => setProfile(p => ({ ...p, estimated_days_local: e.target.value }))} placeholder="VD: 1-2" />
+                </div>
+                <div>
+                  <label style={labelStyle}>Thời gian giao liên tỉnh (ngày)</label>
+                  <input style={inputStyle} value={profile.estimated_days_national || ''} onChange={e => setProfile(p => ({ ...p, estimated_days_national: e.target.value }))} placeholder="VD: 3-5" />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="admin-records">
+          <div className="admin-record-header">
+            <h3><i className="las la-money-bill-wave" style={{ marginRight: 6 }}></i>Bảng giá vận chuyển</h3>
+            <div style={{ display: 'flex', gap: 8 }}>
+              {['local', 'national'].map(tab => (
+                <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding: '6px 16px', borderRadius: 20, border: 'none', cursor: 'pointer', fontWeight: 500, fontSize: '.85rem', background: activeTab === tab ? '#22BAA0' : '#f0f0f0', color: activeTab === tab ? '#fff' : '#555' }}>
+                  {tab === 'local' ? 'Nội tỉnh' : 'Liên tỉnh'}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div style={{ padding: '16px 24px' }}>
+            <p style={{ margin: '0 0 12px', fontSize: '.85rem', color: '#666' }}>
+              Phí = <strong>Phí cơ bản</strong> + (<strong>Khối lượng</strong> - Từ kg) × <strong>Phí/kg thêm</strong>
+            </p>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '.88rem' }}>
+                <thead>
+                  <tr style={{ background: '#fafafa' }}>
+                    <th style={th}>Từ (kg)</th>
+                    <th style={th}>Đến (kg) — trống = vô hạn</th>
+                    <th style={th}>Phí cơ bản (₫)</th>
+                    <th style={th}>Phí thêm / kg (₫)</th>
+                    <th style={th}></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rates.map((r, idx) => (
+                    <tr key={idx} style={{ borderBottom: '1px solid #f5f5f5' }}>
+                      <td style={td}><input type="number" min="0" step="0.1" style={{ ...inputStyle, width: 90 }} value={r.weight_from} onChange={e => updateRate(idx, 'weight_from', e.target.value)} /></td>
+                      <td style={td}><input type="number" min="0" step="0.1" style={{ ...inputStyle, width: 90 }} value={r.weight_to} onChange={e => updateRate(idx, 'weight_to', e.target.value)} placeholder="vô hạn" /></td>
+                      <td style={td}>
+                        <input type="number" min="0" step="1000" style={{ ...inputStyle, width: 130 }} value={r.base_fee} onChange={e => updateRate(idx, 'base_fee', e.target.value)} />
+                        {Number(r.base_fee) > 0 && <span style={{ marginLeft: 6, color: '#22BAA0', fontSize: '.8rem' }}>{fmtVnd(r.base_fee)}₫</span>}
+                      </td>
+                      <td style={td}>
+                        <input type="number" min="0" step="1000" style={{ ...inputStyle, width: 130 }} value={r.per_kg_fee} onChange={e => updateRate(idx, 'per_kg_fee', e.target.value)} />
+                        {Number(r.per_kg_fee) > 0 && <span style={{ marginLeft: 6, color: '#22BAA0', fontSize: '.8rem' }}>{fmtVnd(r.per_kg_fee)}₫</span>}
+                      </td>
+                      <td style={td}><button onClick={() => removeRate(idx)} style={{ padding: '4px 10px', borderRadius: 6, border: 'none', background: '#fde8e8', color: '#e74c3c', cursor: 'pointer' }}><i className="las la-trash"></i></button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <button onClick={addRate} style={{ marginTop: 12, padding: '7px 16px', borderRadius: 8, border: '1px dashed #22BAA0', background: 'none', color: '#22BAA0', cursor: 'pointer', fontWeight: 500, fontSize: '.85rem' }}>
+              <i className="las la-plus" style={{ marginRight: 4 }}></i>Thêm mức giá
+            </button>
+          </div>
+        </div>
+        <div style={{ marginTop: 24, display: 'flex', justifyContent: 'flex-end' }}>
+          <button onClick={handleSave} disabled={saving} style={{ padding: '10px 28px', borderRadius: 8, border: 'none', background: '#22BAA0', color: '#fff', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: '.95rem', opacity: saving ? 0.7 : 1 }}>
+            {saving ? 'Đang lưu...' : 'Lưu cấu hình'}
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+const labelStyle = { display: 'block', fontSize: '.82rem', fontWeight: 600, marginBottom: 5, color: '#444' };
+const inputStyle = { width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #ddd', fontSize: '.88rem', boxSizing: 'border-box' };
+const th = { padding: '10px 12px', textAlign: 'left', fontSize: '.78rem', fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '.4px' };
+const td = { padding: '8px 12px', verticalAlign: 'middle' };

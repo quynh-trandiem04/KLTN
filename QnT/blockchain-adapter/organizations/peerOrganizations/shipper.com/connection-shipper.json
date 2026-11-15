@@ -1,0 +1,56 @@
+{
+    "name": "test-network-ShipperOrg",
+    "version": "1.0.0",
+    "client": {
+        "organization": "ShipperOrg",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "30000",
+                    "eventHub": "30000",
+                    "eventReg": "30000"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "ShipperOrg": {
+            "mspid": "ShipperOrgMSP",
+            "peers": [
+                "peer0.shipper.com"
+            ],
+            "certificateAuthorities": [
+                "ca.shipper.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.shipper.com": {
+            "url": "grpcs://192.168.147.11:11051",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICRTCCAeqgAwIBAgIRAPs3aq5uRo2zGMm2M0NxyQowCgYIKoZIzj0EAwIwbDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xFDASBgNVBAoTC3NoaXBwZXIuY29tMRowGAYDVQQDExF0bHNjYS5z\naGlwcGVyLmNvbTAeFw0yNjA2MjYwMzM0MDBaFw0zNjA2MjMwMzM0MDBaMGwxCzAJ\nBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1TYW4gRnJh\nbmNpc2NvMRQwEgYDVQQKEwtzaGlwcGVyLmNvbTEaMBgGA1UEAxMRdGxzY2Euc2hp\ncHBlci5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASDAeoAnn6qVbEzT7qS\nkuz3dCJA7eEne0PUwmQoegNcrlBiivqVU6dpIZuJVyt0mqdH9tbRjBuWghyQgH+S\nQKxOo20wazAOBgNVHQ8BAf8EBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsG\nAQUFBwMBMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIKE4Ci7FyGNERoMg+cGK\n5Sz4V7wzX9LGsxGWwAD/uJAWMAoGCCqGSM49BAMCA0kAMEYCIQCTFjhGRM48yBB1\njwVaoBKnOVZuPvDAG/dEhYdZ0FFSGQIhAIf47hYIOQurEfnu471sm1eRT0SP9p+a\nNOtOsVzkJaOD\n-----END CERTIFICATE-----"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.shipper.com",
+                "hostnameOverride": "peer0.shipper.com",
+                "request-timeout": 30000,
+                "grpc.keepalive_time_ms": 120000,
+                "grpc.http2.min_time_between_pings_ms": 120000,
+                "grpc.keepalive_timeout_ms": 20000,
+                "grpc.http2.max_pings_without_data": 0
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.shipper.com": {
+            "url": "https://192.168.147.11:11054",
+            "caName": "ca-ShipperOrg",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICPjCCAeOgAwIBAgIQTyf3O119e465aKmbmNxavTAKBggqhkjOPQQDAjBpMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEUMBIGA1UEChMLc2hpcHBlci5jb20xFzAVBgNVBAMTDmNhLnNoaXBw\nZXIuY29tMB4XDTI2MDYyNjAzMzQwMFoXDTM2MDYyMzAzMzQwMFowaTELMAkGA1UE\nBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBGcmFuY2lz\nY28xFDASBgNVBAoTC3NoaXBwZXIuY29tMRcwFQYDVQQDEw5jYS5zaGlwcGVyLmNv\nbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABHvfrpAFMcSCyGzFolHHIc+IStX2\n0FCK8rKy+WK8gHvPGj3iAXtlIUXqQ3v62Kz8JrDGBeIURSvvLvz45mQFhgajbTBr\nMA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEw\nDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgdtpp25Z+eyzAfcVOiaXq6ci1/M+X\ncsVpzgi80qyQz3UwCgYIKoZIzj0EAwIDSQAwRgIhALKrwvBNMcCdfNC5Ae/qvCF5\n+l5wjDKSUxq8ydDQljT/AiEAwRqyDD5JZIiUGaXxaLtac/9wW9+YDYYoA8ImfSva\n8Z4=\n-----END CERTIFICATE-----"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}

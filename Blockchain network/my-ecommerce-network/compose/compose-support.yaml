@@ -1,0 +1,86 @@
+version: '3.7'
+
+services:
+  vault:
+    image: vault:1.13.3
+    container_name: vault_server
+    ports:
+      - "8200:8200"
+    volumes:
+      - ../vault/config:/vault/config
+      - ../vault/data:/vault/file
+    environment:
+      - SKIP_SETCAP=true
+      - VAULT_DEV_ROOT_TOKEN_ID=""
+    entrypoint: /bin/sh -c "vault server -config=/vault/config/vault-config.hcl"
+    cap_add:
+      - IPC_LOCK
+    networks:
+      - fabric_network
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio-lakehouse
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: password123
+      MINIO_SERVER_URL: http://minio-lakehouse:9000
+      MINIO_BROWSER_REDIRECT_URL: http://minio-lakehouse:9001
+    command: server /data --console-address ":9001"
+    volumes:
+      - ../minio-data:/data
+    networks:
+      - fabric_network
+
+  redis:
+    image: redis:alpine
+    container_name: redis_queue
+    ports:
+      - "6379:6379"
+    networks:
+      - fabric_network
+
+  explorerdb:
+    image: hyperledger/explorer-db:latest
+    container_name: explorerdb
+    environment:
+      - USER=hppoc
+      - PASSWORD=password
+      - DATABASE=fabricexplorer
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - fabric_network
+
+  explorer:
+    image: hyperledger/explorer:latest
+    container_name: explorer
+    environment:
+      - DATABASE_HOST=explorerdb
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWORD=password
+      - DISCOVERY_AS_LOCALHOST=false
+      - PORT=8080
+    volumes:
+      - ../explorer/config.json:/opt/explorer/app/platform/fabric/config.json
+      - ../explorer/connection-profile:/opt/explorer/app/platform/fabric/connection-profile
+      - ../organizations:/tmp/crypto
+      - wallet_explorer:/opt/explorer/wallet
+    ports:
+      - "8080:8080"
+    depends_on:
+      - explorerdb
+    networks:
+      - fabric_network
+
+volumes:
+  pgdata:
+  wallet_explorer:
+
+networks:
+  fabric_network:
+    name: fabric_ecommerce_network
+

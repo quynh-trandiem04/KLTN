@@ -1,0 +1,11 @@
+FROM apache/spark:3.5.1
+
+# Chuyển sang quyền root để cài đặt pip package
+USER root
+
+# Cài đặt thư viện delta-spark cho Python
+RUN pip3 install --no-cache-dir delta-spark==3.1.0
+
+# Quay lại user mặc định của Spark
+USER spark
+

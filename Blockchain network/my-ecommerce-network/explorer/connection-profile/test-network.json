@@ -1,0 +1,52 @@
+{
+	"name": "test-network",
+	"version": "1.0.0",
+	"client": {
+		"tlsEnable": true,
+		"adminCredential": {
+			"id": "admin",
+			"password": "adminpw"
+		},
+		"enableAuthentication": true,
+		"organization": "ECommercePlatformOrgMSP",
+		"connection": {
+			"timeout": {
+				"peer": {
+					"endorser": "300"
+				}
+			}
+		}
+	},
+	"channels": {
+		"orderchannel": {
+			"peers": {
+				"peer0.ecommerce.com": {}
+			}
+		}
+	},
+	"organizations": {
+		"ECommercePlatformOrgMSP": {
+			"mspid": "ECommercePlatformOrgMSP",
+			"peers": [
+				"peer0.ecommerce.com"
+			],
+			"adminPrivateKey": {
+				"path": "/tmp/crypto/peerOrganizations/ecommerce.com/users/Admin@ecommerce.com/msp/keystore/priv_sk"
+			},
+			"signedCert": {
+				"path": "/tmp/crypto/peerOrganizations/ecommerce.com/users/Admin@ecommerce.com/msp/signcerts/Admin@ecommerce.com-cert.pem"
+			}
+		}
+	},
+	"peers": {
+		"peer0.ecommerce.com": {
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/ecommerce.com/peers/peer0.ecommerce.com/tls/ca.crt"
+			},
+			"url": "grpcs://peer0.ecommerce.com:7051",
+			"grpcOptions": {
+				"ssl-target-name-override": "peer0.ecommerce.com"
+			}
+		}
+	}
+}

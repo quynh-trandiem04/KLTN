@@ -1,0 +1,55 @@
+{
+    "name": "test-network-ECommercePlatformOrg",
+    "version": "1.0.0",
+    "client": {
+        "organization": "ECommercePlatformOrg",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "30000",
+                    "eventHub": "30000",
+                    "eventReg": "30000"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "ECommercePlatformOrg": {
+            "mspid": "ECommercePlatformOrgMSP",
+            "peers": [
+                "peer0.ecommerce.com"
+            ],
+            "certificateAuthorities": [
+                "ca.ecommerce.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.ecommerce.com": {
+            "url": "grpcs://192.168.147.11:7051",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICTDCCAfGgAwIBAgIQRYusPr/ck4AIXAULdT2z9zAKBggqhkjOPQQDAjBwMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEWMBQGA1UEChMNZWNvbW1lcmNlLmNvbTEcMBoGA1UEAxMTdGxzY2Eu\nZWNvbW1lcmNlLmNvbTAeFw0yNjA2MjYwMzM0MDBaFw0zNjA2MjMwMzM0MDBaMHAx\nCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1TYW4g\nRnJhbmNpc2NvMRYwFAYDVQQKEw1lY29tbWVyY2UuY29tMRwwGgYDVQQDExN0bHNj\nYS5lY29tbWVyY2UuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE396s4Y+V\n8kBhn6bUdIDCllxCVVuSo/djxbs145Rmy5thzjUECoII9jmHELAvqKWXUumAomX3\nrFpSxMyJVUJpQKNtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1UdJQQWMBQGCCsGAQUF\nBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1UdDgQiBCDX/kK3vKGu\njT/TPH3cTV85zEhafksxN4SgbN/AP5/wKjAKBggqhkjOPQQDAgNJADBGAiEAgPng\nLSKrWNorGMJMkXyRuCiYCDMppqyovSYZSCUJ5M4CIQD0z7395EeJR5nGOSa5UWIu\neY2fEdghZmKQm1RVta+WxQ==\n-----END CERTIFICATE-----"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.ecommerce.com",
+                "hostnameOverride": "peer0.ecommerce.com",
+                "grpc.keepalive_time_ms": 120000,
+                "grpc.http2.min_time_between_pings_ms": 120000,
+                "grpc.keepalive_timeout_ms": 20000,
+                "grpc.http2.max_pings_without_data": 0
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.ecommerce.com": {
+            "url": "https://192.168.147.11:7054",
+            "caName": "ca-ECommercePlatformOrg",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICRDCCAeugAwIBAgIQAQPoAismsE0MPsLbz3LyAjAKBggqhkjOPQQDAjBtMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEWMBQGA1UEChMNZWNvbW1lcmNlLmNvbTEZMBcGA1UEAxMQY2EuZWNv\nbW1lcmNlLmNvbTAeFw0yNjA2MjYwMzM0MDBaFw0zNjA2MjMwMzM0MDBaMG0xCzAJ\nBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1TYW4gRnJh\nbmNpc2NvMRYwFAYDVQQKEw1lY29tbWVyY2UuY29tMRkwFwYDVQQDExBjYS5lY29t\nbWVyY2UuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEKJuEXUiZ3I/xRfyS\n4wuM2fRWsd/Luwye6kyEyElv5HtRPh9SzvzzteXDC935w/El/YCLbmgJcp0Zblkw\n8z+Bm6NtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggr\nBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1UdDgQiBCAkBL3ghFe8v4ubmWZf\nSH174vdvLS+RVYjkIPfaTkD61jAKBggqhkjOPQQDAgNHADBEAiBMDUSQpx2sfC0e\nIg2aOG+d0PLmAQcSUiu8vpS8YtE7AwIgLEwe9wjWjpbxJv16UGzjBTji0akV256b\nFM4eG+b09IE=\n-----END CERTIFICATE-----"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}

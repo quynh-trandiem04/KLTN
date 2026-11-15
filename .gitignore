@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+*/node_modules/
+**/node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+#organization
+organization/
+
+*.tar.gz
+
+# Vault secrets - DO NOT COMMIT
+**/vault/keys.json
+**/vault/root_token.txt
+**/vault/*.token

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+
+    <!-- ══════════════ DATABASE (PostgreSQL) ══════════════ -->
+    <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>org.postgresql.Driver</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>jdbc:postgresql://${METASTORE_DB_HOST}:${METASTORE_DB_PORT}/${METASTORE_DB_NAME}</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <value>${METASTORE_DB_USER}</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionPassword</name>
+        <value>${METASTORE_DB_PASSWORD}</value>
+    </property>
+
+    <!-- Connection pool -->
+    <property>
+        <name>datanucleus.connectionPoolingType</name>
+        <value>HikariCP</value>
+    </property>
+
+    <!-- ══════════════ SCHEMA INIT (QUAN TRỌNG) ══════════════ -->
+    <property>
+        <name>datanucleus.schema.autoCreateAll</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>metastore.schema.verification</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>metastore.schema.verification.record.version</name>
+        <value>false</value>
+    </property>
+
+    <!-- ══════════════ METASTORE SERVER ══════════════ -->
+    <property>
+        <name>metastore.thrift.port</name>
+        <value>9083</value>
+    </property>
+
+    <property>
+        <name>metastore.warehouse.dir</name>
+        <value>s3a://${S3_BUCKET}/warehouse</value>
+    </property>
+
+    <!-- ══════════════ S3A (MinIO) ══════════════ -->
+    <property>
+        <name>fs.s3a.endpoint</name>
+        <value>${S3_ENDPOINT}</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.access.key</name>
+        <value>${S3_ACCESS_KEY}</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.secret.key</name>
+        <value>${S3_SECRET_KEY}</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.path.style.access</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.impl</name>
+        <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.connection.ssl.enabled</name>
+        <value>false</value>
+    </property>
+
+    <!-- ══════════════ PERFORMANCE ══════════════ -->
+    <property>
+        <name>datanucleus.connectionPool.maxPoolSize</name>
+        <value>10</value>
+    </property>
+
+    <property>
+        <name>metastore.client.socket.timeout</name>
+        <value>600s</value>
+    </property>
+
+    <property>
+        <name>metastore.batch.retrieve.max</name>
+        <value>300</value>
+    </property>
+
+</configuration>

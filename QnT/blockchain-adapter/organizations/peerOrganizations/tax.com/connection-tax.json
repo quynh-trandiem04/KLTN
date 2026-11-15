@@ -1,0 +1,56 @@
+{
+    "name": "test-network-TaxOrg",
+    "version": "1.0.0",
+    "client": {
+        "organization": "TaxOrg",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "30000",
+                    "eventHub": "30000",
+                    "eventReg": "30000"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "TaxOrg": {
+            "mspid": "TaxOrgMSP",
+            "peers": [
+                "peer0.tax.com"
+            ],
+            "certificateAuthorities": [
+                "ca.tax.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.tax.com": {
+            "url": "grpcs://192.168.147.11:13051",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICNDCCAdqgAwIBAgIRANm5BoPhrAwOPF9m/xEPSq4wCgYIKoZIzj0EAwIwZDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xEDAOBgNVBAoTB3RheC5jb20xFjAUBgNVBAMTDXRsc2NhLnRheC5j\nb20wHhcNMjYwNjI2MDMzNDAwWhcNMzYwNjIzMDMzNDAwWjBkMQswCQYDVQQGEwJV\nUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEQ\nMA4GA1UEChMHdGF4LmNvbTEWMBQGA1UEAxMNdGxzY2EudGF4LmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABG8GuWF8NwugTUtt3a/STIalKp1Y8PGI8BzvzDLz\n7wZRsDP/cb+H2Kr5K8XMu4lJFWHsMkaN1g7kY8Xdf6aShEqjbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQgYjKBy4HiVVeaUjqOka7v/G2B8NKXuY4358ITGX5g\np8gwCgYIKoZIzj0EAwIDSAAwRQIhAMQjZRvZghHpH/wMunHa4z94iy6QVEre757B\ne+rPtObgAiATg0nRDrFKoAfvskmNPx1TyXuEVNBxwzUxkh22vz3FWQ==\n-----END CERTIFICATE-----"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.tax.com",
+                "hostnameOverride": "peer0.tax.com",
+                "request-timeout": 30000,
+                "grpc.keepalive_time_ms": 120000,
+                "grpc.http2.min_time_between_pings_ms": 120000,
+                "grpc.keepalive_timeout_ms": 20000,
+                "grpc.http2.max_pings_without_data": 0
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.tax.com": {
+            "url": "https://192.168.147.11:13054",
+            "caName": "ca-TaxOrg",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICLjCCAdSgAwIBAgIRAKvqMHd1l2fCKy4/rUsHxDEwCgYIKoZIzj0EAwIwYTEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xEDAOBgNVBAoTB3RheC5jb20xEzARBgNVBAMTCmNhLnRheC5jb20w\nHhcNMjYwNjI2MDMzNDAwWhcNMzYwNjIzMDMzNDAwWjBhMQswCQYDVQQGEwJVUzET\nMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEQMA4G\nA1UEChMHdGF4LmNvbTETMBEGA1UEAxMKY2EudGF4LmNvbTBZMBMGByqGSM49AgEG\nCCqGSM49AwEHA0IABJg6hmlqneHgZpB9PQi9aEngxqcetJtjIzdaa9PtGU/h1IcZ\nKrGsJlz5WqhPIgIAtgmP9PH6KVLKplkKU+vwyrKjbTBrMA4GA1UdDwEB/wQEAwIB\npjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB\n/zApBgNVHQ4EIgQgx98l7CYdCoV85cUYxZFQz2Ncy6V2sxHKhbuhAqBGKBkwCgYI\nKoZIzj0EAwIDSAAwRQIhAIdT+krgMMVfXaYWzMlS73efUBjpMrQpuLfAzVRpQ9s3\nAiAm0ZMROpAbc1v7Jmq6ub4F1nRzhB/QhmJqNqXWf0OkQA==\n-----END CERTIFICATE-----"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}

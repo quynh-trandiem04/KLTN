@@ -1,0 +1,56 @@
+{
+    "name": "test-network-SellerOrg",
+    "version": "1.0.0",
+    "client": {
+        "organization": "SellerOrg",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "30000",
+                    "eventHub": "30000",
+                    "eventReg": "30000"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "SellerOrg": {
+            "mspid": "SellerOrgMSP",
+            "peers": [
+                "peer0.seller.com"
+            ],
+            "certificateAuthorities": [
+                "ca.seller.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.seller.com": {
+            "url": "grpcs://192.168.147.11:9051",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICPzCCAeagAwIBAgIRALaqpBZjNrwOZ2nFBvJk86QwCgYIKoZIzj0EAwIwajEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xEzARBgNVBAoTCnNlbGxlci5jb20xGTAXBgNVBAMTEHRsc2NhLnNl\nbGxlci5jb20wHhcNMjYwNjI2MDMzNDAwWhcNMzYwNjIzMDMzNDAwWjBqMQswCQYD\nVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZyYW5j\naXNjbzETMBEGA1UEChMKc2VsbGVyLmNvbTEZMBcGA1UEAxMQdGxzY2Euc2VsbGVy\nLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABPLXW31zt1XF3UaVL1IkrFoT\nlANg89a13TuihevoSqrYFGNp4YS0F0xtBhGFuVwbDz1hH0WM0aCY8A2Eumj87zKj\nbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUH\nAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgrXBDYs8cdXDCkeVYvHADkZhs\nQz9fDpxYlk6ga47ofMgwCgYIKoZIzj0EAwIDRwAwRAIgdTmJM1/HftfIcbW8gyJR\n4pWEcKYQkNLImECsNjB5MdkCIEwkJYWtWP3YGf0pC3qx7AX/a8Z/hT3h5GLtfu8p\ng57Z\n-----END CERTIFICATE-----"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.seller.com",
+                "hostnameOverride": "peer0.seller.com",
+                "request-timeout": 30000,
+                "grpc.keepalive_time_ms": 120000,
+                "grpc.http2.min_time_between_pings_ms": 120000,
+                "grpc.keepalive_timeout_ms": 20000,
+                "grpc.http2.max_pings_without_data": 0
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.seller.com": {
+            "url": "https://192.168.147.11:8054",
+            "caName": "ca-SellerOrg",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICOTCCAeCgAwIBAgIRAIjXuzc4+qBgeXtDSOAWu8UwCgYIKoZIzj0EAwIwZzEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xEzARBgNVBAoTCnNlbGxlci5jb20xFjAUBgNVBAMTDWNhLnNlbGxl\nci5jb20wHhcNMjYwNjI2MDMzNDAwWhcNMzYwNjIzMDMzNDAwWjBnMQswCQYDVQQG\nEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZyYW5jaXNj\nbzETMBEGA1UEChMKc2VsbGVyLmNvbTEWMBQGA1UEAxMNY2Euc2VsbGVyLmNvbTBZ\nMBMGByqGSM49AgEGCCqGSM49AwEHA0IABO/GXBYcMgOE7+sU4tx/tn+x7yIlx2Yq\nqho5SWxp8ax3cTOJZffOhfFH49K+cw0xbmaBEyBN7BxjQOwY/YkAPSmjbTBrMA4G\nA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYD\nVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgT50S5Ex6hDclLOxaiMnl1hmWlrB5BZII\nhS8IQ52tO1gwCgYIKoZIzj0EAwIDRwAwRAIgUJKW5YNBOr86Rv3EWLrQaEVFDRJE\ntWWHfPvCNq1NzeUCIASf3DKf49E1BgZZGK/bjrDey4ORQtj+E5lUc3DDjeVD\n-----END CERTIFICATE-----"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+[
+    {
+        "name": "collectionSellerMarketplace",
+        "policy": "OR('SellerOrgMSP.member', 'ECommercePlatformOrgMSP.member')",
+        "requiredPeerCount": 1,
+        "maxPeerCount": 3,
+        "blockToLive": 0,
+        "memberOnlyRead": true
+    },
+    {
+        "name": "collectionShipperMarketplace",
+        "policy": "OR('ShipperOrgMSP.member', 'ECommercePlatformOrgMSP.member')",
+        "requiredPeerCount": 1,
+        "maxPeerCount": 3,
+        "blockToLive": 0,
+        "memberOnlyRead": true
+    },
+    {
+        "name": "collectionTaxMarketplace",
+        "policy": "OR('TaxOrgMSP.member', 'ECommercePlatformOrgMSP.member')",
+        "requiredPeerCount": 1,
+        "maxPeerCount": 3,
+        "blockToLive": 0,
+        "memberOnlyRead": true
+    }    
+]

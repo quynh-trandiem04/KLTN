@@ -1,0 +1,10 @@
+PeerOrgs:
+  - Name: TaxOrg
+    Domain: tax.com
+    EnableNodeOUs: true
+    Template:
+      Count: 2  # Peer0, Peer1 (HA)
+      SANS:
+        - localhost
+    Users:
+      Count: 1

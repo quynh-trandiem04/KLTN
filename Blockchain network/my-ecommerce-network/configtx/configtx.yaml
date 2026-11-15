@@ -1,0 +1,276 @@
+---
+################################################################################
+#
+#   Section: Organizations
+#
+#   ĐỊNH NGHĨA 5 TỔ CHỨC (1 Orderer, 4 Peer: Platform, Seller, Shipper, Tax)
+#
+################################################################################
+Organizations:
+    # ---------------------------------------------------------------------------
+    # Tổ chức Orderer
+    # ---------------------------------------------------------------------------
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererMSP
+        MSPDir: ../organizations/ordererOrganizations/example.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('OrdererMSP.admin')"
+
+        OrdererEndpoints:
+            - "orderer0.example.com:7050"
+            - "orderer1.example.com:8050"
+            - "orderer2.example.com:9050"
+
+    # ---------------------------------------------------------------------------
+    # Tổ chức Sàn TMĐT (ECommercePlatformOrg)
+    # ---------------------------------------------------------------------------
+    - &ECommercePlatformOrg
+        Name: ECommercePlatformOrgMSP
+        ID: ECommercePlatformOrgMSP
+        MSPDir: ../organizations/peerOrganizations/ecommerce.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('ECommercePlatformOrgMSP.admin', 'ECommercePlatformOrgMSP.peer', 'ECommercePlatformOrgMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('ECommercePlatformOrgMSP.admin', 'ECommercePlatformOrgMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('ECommercePlatformOrgMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('ECommercePlatformOrgMSP.peer')"
+
+        AnchorPeers:
+            - Host: peer0.ecommerce.com
+              Port: 7051
+
+    # ---------------------------------------------------------------------------
+    # Tổ chức Nhà Bán Hàng (SellerOrg)
+    # ---------------------------------------------------------------------------
+    - &SellerOrg
+        Name: SellerOrgMSP
+        ID: SellerOrgMSP
+        MSPDir: ../organizations/peerOrganizations/seller.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('SellerOrgMSP.admin', 'SellerOrgMSP.peer', 'SellerOrgMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('SellerOrgMSP.admin', 'SellerOrgMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('SellerOrgMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('SellerOrgMSP.peer')"
+
+        AnchorPeers:
+            - Host: peer0.seller.com
+              Port: 9051
+
+    # ---------------------------------------------------------------------------
+    # Tổ chức Vận Chuyển (ShipperOrg)
+    # ---------------------------------------------------------------------------
+    - &ShipperOrg
+        Name: ShipperOrgMSP
+        ID: ShipperOrgMSP
+        MSPDir: ../organizations/peerOrganizations/shipper.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('ShipperOrgMSP.admin', 'ShipperOrgMSP.peer', 'ShipperOrgMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('ShipperOrgMSP.admin', 'ShipperOrgMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('ShipperOrgMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('ShipperOrgMSP.peer')"
+
+        AnchorPeers:
+            - Host: peer0.shipper.com
+              Port: 11051
+
+    - &TaxOrg
+        Name: TaxOrgMSP
+        ID: TaxOrgMSP
+        MSPDir: ../organizations/peerOrganizations/tax.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('TaxOrgMSP.admin', 'TaxOrgMSP.peer', 'TaxOrgMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('TaxOrgMSP.admin', 'TaxOrgMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('TaxOrgMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('TaxOrgMSP.peer')"
+        AnchorPeers:
+            - Host: peer0.tax.com
+              Port: 13051
+
+################################################################################
+#
+#   SECTION: Capabilities
+#
+################################################################################
+Capabilities:
+    Channel: &ChannelCapabilities
+        V2_0: true
+    Orderer: &OrdererCapabilities
+        V2_0: true
+    Application: &ApplicationCapabilities
+        V2_0: true
+
+################################################################################
+#
+#   SECTION: Application
+#
+################################################################################
+Application: &ApplicationDefaults
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+################################################################################
+#
+#   SECTION: Orderer
+#
+################################################################################
+Orderer: &OrdererDefaults
+
+    OrdererType: etcdraft
+
+    EtcdRaft:
+        Consenters:
+            - Host: orderer0.example.com
+              Port: 7050
+              ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/server.crt
+              ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/server.crt
+            - Host: orderer1.example.com
+              Port: 8050
+              ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/server.crt
+              ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/server.crt
+            - Host: orderer2.example.com
+              Port: 9050
+              ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
+              ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
+
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+
+    Organizations:
+        - *OrdererOrg
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+################################################################################
+#
+#   CHANNEL
+#
+################################################################################
+Channel: &ChannelDefaults
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+    Capabilities:
+        <<: *ChannelCapabilities
+
+################################################################################
+#
+#   Profile
+#
+#   ĐỊNH NGHĨA KÊNH HỆ THỐNG VÀ KÊNH NGHIỆP VỤ
+#
+################################################################################
+Profiles:
+    # ---------------------------------------------------------------------------
+    # Profile cho Kênh Hệ Thống (System Channel)
+    # Tên: FourOrgsOrdererGenesis
+    # ---------------------------------------------------------------------------
+    FourOrgsOrdererGenesis:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities: *OrdererCapabilities
+
+        # Định nghĩa Consortium
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *ECommercePlatformOrg
+                    - *SellerOrg
+                    - *ShipperOrg
+                    - *TaxOrg
+
+    # ---------------------------------------------------------------------------
+    # Profile cho Kênh Nghiệp Vụ "orderchannel"
+    # Tên: FourOrgsChannel
+    # ---------------------------------------------------------------------------
+    FourOrgsChannel:
+        <<: *ChannelDefaults
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *ECommercePlatformOrg
+                - *SellerOrg
+                - *ShipperOrg
+                - *TaxOrg
+            Capabilities: *ApplicationCapabilities

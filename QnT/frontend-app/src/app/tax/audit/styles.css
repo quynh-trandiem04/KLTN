@@ -1,0 +1,259 @@
+/* =============================================
+   Tax Audit (Lookup) Page Styles
+   Shares login/register base styles
+============================================= */
+@import '../login/styles.css';
+
+/* Override spacing for audit page */
+.tax-register-area {
+  padding: 30px 0 50px;
+}
+
+.tax-register-wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.tax-register-form {
+  padding: 30px 28px;
+}
+
+.tax-register-header {
+  margin-bottom: 20px;
+}
+
+.tax-register-header h3 {
+  font-size: 20px;
+}
+
+.tax-breadcrumb {
+  padding: 30px 0;
+}
+
+.tax-breadcrumb-title {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+/* Reuse register area styles */
+.audit-guide-text {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.7;
+  margin: 0;
+}
+.audit-guide-text strong {
+  color: #1a1a2e;
+}
+
+/* ---- Divider ---- */
+.audit-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 12px 0;
+}
+.audit-divider::before,
+.audit-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+.audit-divider span {
+  font-size: 13px;
+  color: #999;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ---- Results Section ---- */
+.audit-results {
+  margin-top: 24px;
+}
+
+.audit-results-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e5e7eb;
+}
+.audit-results-header i {
+  color: #C41E3A;
+  font-size: 18px;
+}
+
+/* ---- No Result ---- */
+.audit-no-result {
+  text-align: center;
+  padding: 35px 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.audit-no-result-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+.audit-no-result-icon i {
+  font-size: 24px;
+  color: #ccc;
+}
+.audit-no-result strong {
+  display: block;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+.audit-no-result p {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+.audit-no-result a {
+  color: #C41E3A;
+  font-weight: 600;
+  text-decoration: none;
+}
+.audit-no-result a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Result Cards ---- */
+.audit-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.audit-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+/* Status banner */
+.audit-card-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+}
+.audit-card-status-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.audit-card-status-left > i {
+  font-size: 22px;
+}
+.audit-card-status-left strong {
+  display: block;
+  font-size: 14px;
+}
+.audit-card-status-left span {
+  font-size: 12px;
+  opacity: 0.8;
+}
+.audit-card-id {
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.audit-status-pending {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  color: #92400e;
+  border-bottom: 2px solid #fde68a;
+}
+.audit-status-approved {
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  color: #065f46;
+  border-bottom: 2px solid #a7f3d0;
+}
+.audit-status-rejected {
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  color: #991b1b;
+  border-bottom: 2px solid #fecaca;
+}
+
+/* Card body */
+.audit-card-body {
+  padding: 16px;
+}
+
+.audit-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.audit-card-field {
+  display: flex;
+  flex-direction: column;
+}
+.audit-card-field.full {
+  grid-column: 1 / -1;
+}
+.audit-card-field label {
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+}
+.audit-card-field label i {
+  font-size: 10px;
+  width: 12px;
+  color: #bbb;
+}
+.audit-card-field span {
+  font-size: 13px;
+  color: #333;
+  font-weight: 500;
+}
+.audit-card-field span.mono {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.audit-reject-text {
+  color: #dc2626 !important;
+  background: #fef2f2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 3px solid #dc2626;
+  font-size: 13px;
+  display: block;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .audit-card-grid {
+    grid-template-columns: 1fr;
+  }
+  .audit-card-field.full {
+    grid-column: 1;
+  }
+}
