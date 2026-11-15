@@ -28,7 +28,7 @@ docker compose exec -T superset superset fab create-admin \
   --firstname Admin \
   --lastname Lakehouse \
   --email admin@lakehouse.local \
-  --password admin123 \
+  --password ${SUPERSET_ADMIN_PASSWORD:-admin123} \
   2>/dev/null && echo "  Admin user created" || echo "  Admin user already exists"
 
 # ── Step 3: Initialize roles and permissions ──
@@ -57,7 +57,7 @@ echo "  Superset ready!"
 echo ""
 echo "  URL:      http://localhost:8088"
 echo "  Username: admin"
-echo "  Password: admin123"
+echo "  Password: ${SUPERSET_ADMIN_PASSWORD:-admin123}"
 echo ""
 echo "  Trino connection: trino://trino@trino:8080/delta"
 echo "═══════════════════════════════════════════"

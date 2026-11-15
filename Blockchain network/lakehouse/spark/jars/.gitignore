@@ -1,0 +1,2 @@
+# Large JAR files are managed separately (download via script or Docker image)
+*.jar

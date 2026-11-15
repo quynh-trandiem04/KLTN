@@ -28,7 +28,7 @@ services:
     image: couchdb:3.1.1
     environment:
       - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=adminpw
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     ports:
       - "5984:5984"
     networks:
@@ -39,7 +39,7 @@ services:
     image: couchdb:3.1.1
     environment:
       - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=adminpw
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     ports:
       - "5985:5984"
     networks:
@@ -50,7 +50,7 @@ services:
     image: couchdb:3.1.1
     environment:
       - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=adminpw
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     ports:
       - "7984:5984"
     networks:
@@ -61,7 +61,7 @@ services:
     image: couchdb:3.1.1
     environment:
       - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=adminpw
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     ports:
       - "7985:5984"
     networks:
@@ -72,7 +72,7 @@ services:
     image: couchdb:3.1.1
     environment:
       - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=adminpw
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     ports:
       - "9984:5984"
     networks:
@@ -83,7 +83,7 @@ services:
     image: couchdb:3.1.1
     environment:
       - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=adminpw
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     ports:
       - "9985:5984"
     networks:
@@ -95,7 +95,7 @@ services:
     image: couchdb:3.1.1
     environment:
       - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=adminpw
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     ports:
       - "11984:5984"
     networks:
@@ -106,7 +106,7 @@ services:
     image: couchdb:3.1.1
     environment:
       - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=adminpw
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     ports:
       - "11985:5984"
     networks:
@@ -117,7 +117,7 @@ services:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.ecommerce:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     depends_on:
       - couchdb0.ecommerce
 
@@ -126,7 +126,7 @@ services:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.ecommerce:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     depends_on:
       - couchdb1.ecommerce
 
@@ -135,7 +135,7 @@ services:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.seller:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     depends_on:
       - couchdb0.seller
 
@@ -144,7 +144,7 @@ services:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.seller:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     depends_on:
       - couchdb1.seller
 
@@ -153,7 +153,7 @@ services:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.shipper:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     depends_on:
       - couchdb0.shipper
 
@@ -162,7 +162,7 @@ services:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.shipper:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     depends_on:
       - couchdb1.shipper
 
@@ -171,7 +171,7 @@ services:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.tax:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     depends_on:
       - couchdb0.tax
 
@@ -180,6 +180,6 @@ services:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.tax:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     depends_on:
       - couchdb1.tax

@@ -7,6 +7,8 @@ node_modules/
 .env
 .env.local
 .env.*.local
+**/backend-api/.env
+**/lakehouse/.env
 
 # Logs
 logs/
